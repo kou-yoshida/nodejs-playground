@@ -1,0 +1,29 @@
+version: '3'
+services:
+  express:
+    image: node:14
+    container_name: express-redis-demo
+    working_dir: /app
+    volumes:
+      - ./:/app
+    command: npm start
+    ports:
+      - 3000:3000
+    depends_on:
+      - redis
+    networks:
+      - app-net
+
+  redis:
+    image: redis:latest
+    container_name: redis-redis-demo
+    ports:
+      - 6379:6379
+    networks:
+      - app-net
+    command: ["redis-server", "/redis.conf"]
+    volumes:
+       - ./redis.conf:/redis.conf
+
+networks:
+  app-net:
